@@ -76,7 +76,10 @@ exports.loginUser = async (req, res) => {
       delete userData.password;
       
       const token = jwt.sign({ id: userId }, 'JWT_SECRET', { expiresIn: '1h' });
-      res.json({ token, user: userData, message: 'Login Successful' });
+      res.status(200).json({ 
+        data: { token, user: userData }, 
+        message: 'Login Successful' 
+      });
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

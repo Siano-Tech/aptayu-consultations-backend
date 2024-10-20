@@ -72,16 +72,16 @@ router.delete('/fitness/:type/:id', fitnessController.deleteFitnessPlan);
 // -------- Education Routes -------- //
 
 // Upload a new educational material
-router.post('/education-material', educationController.uploadMaterial);
+router.post('/education-materials', educationController.uploadMaterial);
 
 // Get all educational materials
-router.get('/education-material', educationController.getAllMaterials);
+router.get('/education-materials', educationController.getAllMaterials);
 
 // Update an educational material
-router.put('/education-material/:id', educationController.updateMaterial);
+router.put('/education-materials/:id', educationController.updateMaterial);
 
 // Delete an educational material
-router.delete('/education-material/:id', educationController.deleteMaterial);
+router.delete('/education-materials/:id', educationController.deleteMaterial);
 
 
 module.exports = router;

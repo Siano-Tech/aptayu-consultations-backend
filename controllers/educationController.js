@@ -7,7 +7,7 @@ exports.uploadMaterial = async (req, res) => {
   body.lastModified = new Date().toISOString();
   const id = generateId();
   try {
-    const newMaterialRef = db.ref('education-material/'+id);
+    const newMaterialRef = db.ref('education-materials/'+id);
     await newMaterialRef.set(body);
     res.status(200).json({
       message: 'Educational material uploaded successfully'
@@ -23,7 +23,7 @@ exports.uploadMaterial = async (req, res) => {
 // Get all educational materials
 exports.getAllMaterials = async (req, res) => {
   try {
-    const materialsRef = db.ref('education-material');
+    const materialsRef = db.ref('education-materials');
     const snapshot = await materialsRef.once('value');
     if (!snapshot.exists()) {
         return res.status(400).json({ message: 'No education materials available' });
@@ -48,7 +48,7 @@ exports.updateMaterial = async (req, res) => {
   const body = req.body;
   body.lastModified = new Date().toISOString();
   try {
-    const materialRef = db.ref(`education-material/${id}`);
+    const materialRef = db.ref(`education-materials/${id}`);
     await materialRef.update(body);
     res.status(200).json({
       message: 'Educational material updated successfully'
@@ -65,7 +65,7 @@ exports.updateMaterial = async (req, res) => {
 exports.deleteMaterial = async (req, res) => {
   const { id } = req.params;
   try {
-    const materialRef = db.ref(`education-material/${id}`);
+    const materialRef = db.ref(`education-materials/${id}`);
     await materialRef.remove();
     res.status(200).json({
       message: 'Educational material deleted successfully'

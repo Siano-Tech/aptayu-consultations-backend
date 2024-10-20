@@ -37,21 +37,29 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 const patientsRoutes = require('./routes/patients'); // sorted
 const callbackRoutes = require('./routes/callback');
 const consultationRoutes = require('./routes/consultations');
+const fitnessConsultationsRoutes = require('./routes/fitnessConsultations');
+const nutritionConsultationsRoutes = require('./routes/nutritionConsultations');
+const eduConsultationsRoutes = require('./routes/eduConsultations');
 const carePlanRoutes = require('./routes/carePlans');
 const masterRoutes = require('./routes/masters');
 const authRoutes = require('./routes/auth');
 const notificationRoutes = require('./routes/notifications');
 const settingsRoutes = require('./routes/settings');
+const reportsRoutes = require('./routes/reports');
 
 // Use routes
 app.use('/api/patients', patientsRoutes);
 app.use('/api/request-callback', callbackRoutes);
 app.use('/api/consultations', consultationRoutes);
+app.use('/api/fitnessConsultations', fitnessConsultationsRoutes);
+app.use('/api/nutritionConsultations', nutritionConsultationsRoutes);
+app.use('/api/eduConsultations', eduConsultationsRoutes);
 app.use('/api/carePlans', carePlanRoutes);
 app.use('/api/masters', masterRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/reports', reportsRoutes);
 
 // Home route
 app.get('/', (req, res) => {

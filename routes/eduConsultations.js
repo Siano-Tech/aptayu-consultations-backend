@@ -26,23 +26,23 @@
 
 
 const express = require('express');
-const consultationController = require('../controllers/consultationController');
+const eduResourceController = require('../controllers/eduConsultationController');
 const router = express.Router();
 
 // Book a consultation
-router.post('/book', consultationController.createConsultation);
+router.post('/book', eduResourceController.createEduResourceConsultation);
 
 // Get all consultations
-router.get('/', consultationController.getAllConsultations);
+router.get('/', eduResourceController.getAllEduResourceConsultations);
 
-router.get('/:id', consultationController.getAllConsultations);
+router.get('/:id', eduResourceController.getAllEduResourceConsultations);
 
-router.get('/patient/:uid', consultationController.getAllConsultationsByUid);
+router.get('/patient/:uid', eduResourceController.getAllEduResourceConsultationByUid);
 
 // Update a treatment package
-router.put('/:id', consultationController.updateConsultation);
+router.put('/:id', eduResourceController.updateEduResourceConsultation);
 
 // Delete a treatment package
-router.delete('/:id', consultationController.deleteConsultation);
+router.delete('/:id', eduResourceController.deleteEduResourceConsultation);
 
 module.exports = router;

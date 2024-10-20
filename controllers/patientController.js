@@ -42,7 +42,7 @@ exports.getPatientById = async (req, res) => {
     const patient = snapshot.val();
     if (!patient) return res.status(404).json({ message: 'Patient not found' });
 
-    res.status(200).json({ message: 'Patient retrieved successfully', data: patient });
+    res.status(200).json({ message: 'Patient retrieved successfully', data: {...patient, id} });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching patient', error: error.message });
   }

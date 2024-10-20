@@ -2,7 +2,7 @@ const { bucket } = require('../config/firebase');
 const { format } = require('util');
 
 /**
- * Upload file to Firebase Storage
+ * Upload File
  */
 exports.uploadFile = async (req, res) => {
   if (!req.file) {

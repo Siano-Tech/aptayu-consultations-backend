@@ -3,19 +3,18 @@ const { generateId } = require('../utils/utils');
 
 // Create a new report package
 exports.createReport = async (req, res) => {
-  const { uid } = req.params;
   const body = req.body;
   body.lastModified = new Date().toISOString();
   const id = generateId();
   try {
-    const newReportRef = db.ref(`reports/${uid}/${id}`);
+    const newReportRef = db.ref(`reports/${id}`);
     await newReportRef.set(body);
     res.status(200).json({
-      message: 'Report package created successfully',
+      message: 'Report saved successfully',
     });
   } catch (error) {
     res.status(500).json({
-      message: 'Error creating report package',
+      message: 'Error saving report',
       error: error.message
     });
   }
@@ -23,9 +22,8 @@ exports.createReport = async (req, res) => {
 
 // Get all report packages
 exports.getAllReports = async (req, res) => {
-  const { uid } = req.params;
   try {
-    const reportsRef = uid ? db.ref(`reports/${uid}`) : db.ref(`reports/`);
+    const reportsRef = db.ref(`reports`);
     const snapshot = await reportsRef.once('value');
     if (!snapshot.exists()) {
         return res.status(400).json({ message: 'No reports available' });
@@ -45,10 +43,10 @@ exports.getAllReports = async (req, res) => {
 };
 
 // Get all report packages
-exports.getAllReportById = async (req, res) => {
-  const { uid, id } = req.params;
+exports.getReportById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const reportsRef = uid ? db.ref(`reports/${uid}/${id}`) : db.ref(`reports/${id}`);
+    const reportsRef = db.ref(`reports/${id}`);
     const snapshot = await reportsRef.once('value');
     if (!snapshot.exists()) {
         return res.status(400).json({ message: 'No reports available' });
@@ -66,20 +64,43 @@ exports.getAllReportById = async (req, res) => {
   }
 };
 
-// Update a report package
-exports.updateReport = async (req, res) => {
-  const { uid, id } = req.params;
-  const body = req.body;
-  body.lastModified = new Date().toISOString();
+// Get all report packages
+exports.getAllReportByPatientId = async (req, res) => {
+  const { uid } = req.params;
   try {
-    const reportRef = db.ref(`reports/${uid}/${id}`);
-    await reportRef.update(body);
+    const reportsRef = db.ref('reports').orderByChild('patientId').equalTo(uid);
+    const snapshot = await reportsRef.once('value');
+    if (!snapshot.exists()) {
+        return res.status(400).json({ message: 'No reports available' });
+    }
+    const reports = snapshot.val();
+    const reportsList = Object.keys(reports).map((key) => ({ id: key, ...reports[key] }));
     res.status(200).json({
-      message: 'Report package updated successfully'
+      message: 'Reports retrieved successfully',
+      data: reportsList
     });
   } catch (error) {
     res.status(500).json({
-      message: 'Error updating report package',
+      message: 'Error fetching reports',
+      error: error.message
+    });
+  }
+};
+
+// Update a report package
+exports.updateReport = async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  body.lastModified = new Date().toISOString();
+  try {
+    const reportRef = db.ref(`reports/${id}`);
+    await reportRef.update(body);
+    res.status(200).json({
+      message: 'Report updated successfully'
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error updating report',
       error: error.message
     });
   }
@@ -87,16 +108,16 @@ exports.updateReport = async (req, res) => {
 
 // Delete a report package
 exports.deleteReport = async (req, res) => {
-  const { uid, id } = req.params;
+  const { id } = req.params;
   try {
-    const reportRef = db.ref(`reports/${uid}/${id}`);
+    const reportRef = db.ref(`reports/${id}`);
     await reportRef.remove();
     res.status(200).json({
-      message: 'Report package deleted successfully'
+      message: 'Report deleted successfully'
     });
   } catch (error) {
     res.status(500).json({
-      message: 'Error deleting report package',
+      message: 'Error deleting report',
       error: error.message
     });
   }

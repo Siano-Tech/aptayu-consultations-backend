@@ -4,13 +4,14 @@ const reportController = require('../controllers/reportController');
 const router = express.Router();
 
 // Add a report
-router.post('/add/', reportController.createReport);
+router.post('/add', reportController.createReport);
 
 // Get all reports
 router.get('/', reportController.getAllReports);
 
 router.get('/', reportController.getAllReports);
-router.get('/:id', reportController.getAllReportById);
+router.get('/:id', reportController.getReportById);
+router.get('/patient/:uid', reportController.getAllReportByPatientId);
 
 // Update a treatment package
 router.put('/:id', reportController.updateReport);

@@ -1,5 +1,4 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('./aptayu-consultations.json'); // Make sure you download and place this file in the config folder
 
 // Initialize Firebase Admin SDK
 if (!admin.apps.length) {
